@@ -1,0 +1,5 @@
+- @status.each do |stat|
+  = stat.content
+  = "#{stat.user.first_name} #{stat.user.last_name}"
+  = link_to "edit", edit_status_path(stat.id) if current_user.id == stat.user_id
+  %br

@@ -1,0 +1,19 @@
+.modal.hide.fade.in{id: "new_topic", role: "dialog"}
+  .modal-header
+    %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+    %h3= "New Topic"
+
+  = form_for Topic.new, url: topics_url, as: :topic, html: {class: 'form-horizontal'} do |f|
+    .modal-body
+      = f.label :title, "Title"
+      = f.text_field :title, class: "span4 required topic-input"
+      %br/
+      = f.label :content, "Description"
+      = f.text_area :content, class: "span4 topic-input", row: 3
+      = f.hidden_field :user_id, :value => current_user.id
+      = f.label :type
+      = f.select :post_type, Topic.post_types
+
+    .modal-footer
+      %button.btn.btn-link{ type: "button", "data-dismiss" => "modal" }= "Cancel"
+      = f.submit "Create", class: 'btn btn-primary'

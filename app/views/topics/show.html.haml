@@ -1,0 +1,30 @@
+%p= link_to "Back to topics", topics_path
+
+%h1= "#{@topic.title}"
+%table.hole-width.row-fluid.response-box
+  %tr.span12.row-fluid
+    %td.left-response-data.span2
+      %img.timy-gravatar{ src: Gravatar.new(@topic.user.email).image_url }
+      %p.post-author
+        created by
+      %p.post-author
+        = link_to @topic.user.full_name, user_path(@topic.user)
+      %p.post-author
+        = time_ago_in_words(@topic.created_at) + " ago"
+
+    %td.right-response-data.table-alignment-top.span10
+      / %p.post-content= @topic.content
+      / = Redcarpet::Markdown.new(@topic.content).to_html
+      = markdown(@topic.content)
+
+%h2 Responses
+.response-container
+  %table.row-fluid.response-box
+    - @responses.each do |response|
+      %tr.span12.response
+        = render response
+
+
+%h2 Enter a New Response
+= render :partial => 'responses/new'
+

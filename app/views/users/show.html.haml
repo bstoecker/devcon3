@@ -1,0 +1,63 @@
+.row-fluid
+  #user_profile.span3
+    %img.placeholder{src: Gravatar.new(@user.email).image_url}
+    %br
+
+    %h1= @user.first_name
+    %h1.last_name= @user.last_name
+    %h5= @user.role
+    %hr
+
+    %table
+      %tr
+        %td.grey{width: '60px'}= 'From:'
+        %td= @user.location
+      %tr
+        %td.grey= 'Joined:'
+        %td= @user.created_at.to_formatted_s(:short)
+      %tr
+        %td.grey= 'Email:'
+        %td= @user.email
+      %tr
+        %td.team-list.grey= 'Team(s):'
+        %td= render @user.teams
+      - if current_user.id == @user.id
+        %tr
+          %td{colspan: 3}
+            = link_to 'Edit profile', edit_user_path(@user.id), class: 'btn btn-primary edit-profile-btn'
+
+  #profile_content.span9
+    .row-fluid 
+      .span12
+        - if @user.status.count > 0
+          .span2 Latest status: 
+          - stat = @user.status.first
+          .latest_stat= stat.content
+          
+          
+      %h5 Latest posts:
+      %table.table.table-striped.current_user_topics
+        %tbody
+        %th Title
+        %th Created On
+        - @user_posts.each do |p|
+          - post_link = topic_path(p.id) if p.type == 'Topic'
+          - post_link = topic_path(p.topic.id) if p.type == 'Response'
+          %tr
+            %td{width: '70%'}= link_to p.title, post_link
+            %td= p.created_at.to_formatted_s(:long)
+      = will_paginate @user_posts, renderer: BootstrapPagination::Rails, param_name: :latest_posts, page_links: false
+      
+      .my_previous_statuses
+        - if @user_stats.count > 1
+          %h5 Previous statuses:
+          - head, *tail = @user_stats
+          - tail.each do |s|
+            .span3.user_stat
+              = s.content
+        - if @user_stats.count <= 1
+          %h5 Previous statuses:
+          %br= "No Previous Status... Please create one."
+          %br= link_to "Create your first Status here", new_status_path
+      %br    
+      = will_paginate @user_stats, renderer: BootstrapPagination::Rails, param_name: :latest_stats, page_links: false

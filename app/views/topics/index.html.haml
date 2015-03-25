@@ -1,0 +1,15 @@
+.pull-right.search= render partial: 'search'
+
+= link_to "#new_topic", class: 'btn pull-right', "data-toggle" => "modal" do
+  %i.icon-plus
+  = "Create Topic"
+
+.row-fluid
+  .span6
+    %h3= "Topics"  
+    = render @topics
+
+= render 'new'
+
+= will_paginate @topics, renderer: BootstrapPagination::Rails, param_name: :topics, page_links: false if !params[:search]
+

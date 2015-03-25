@@ -1,0 +1,17 @@
+= link_to "#new_team", class: 'btn pull-right', "data-toggle" => "modal" do
+  %i.icon-plus
+  = "Create Team"
+
+%h3= "Teams Overview"
+
+- @teams.each do |team|
+  = link_to team_path(team.id) do
+    .user_card.pull-left{style: "width: 234px; height: 120px"}
+      .row-fluid
+        .span4
+          %span.icon-group.icon-4x.team-icon
+        .span8.team-detail
+          %h4= team.name
+          %p= team.description
+
+= render 'new'

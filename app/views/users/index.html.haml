@@ -1,0 +1,4 @@
+%h3= "Users Overview"
+
+- @users.each do |user|
+  = render partial: 'user_card', :locals => { user: user }

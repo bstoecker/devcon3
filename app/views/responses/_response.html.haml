@@ -1,0 +1,13 @@
+%td.left-response-data.span2
+  %img.timy-gravatar{ src: Gravatar.new(response.user.email).image_url }
+  %p.post-author
+    created by
+  %p.post-author
+    = link_to response.user.full_name, user_path(response.user)
+  %p.post-author
+    = time_ago_in_words(response.created_at) + " ago"
+%td.right-response-data.table-alignment-top.span10
+  / %p.post-content= response.content
+  = markdown(response.content)
+
+

@@ -1,0 +1,16 @@
+.modal.hide.fade.in{id: "new_team", role: "dialog"}
+  .modal-header
+    %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+    %h3= "New Team"
+
+  = form_for Team.new, url: teams_url, as: :team, html: {class: 'form-horizontal'} do |f|
+    .modal-body
+      = f.label :name, "Name"
+      = f.text_field :name, class: "span4 required team-input"
+      %br/
+      = f.label :description, "Description"
+      = f.text_area :description, class: "span4 team-input", row: 3
+
+    .modal-footer
+      %button.btn.btn-link{ type: "button", "data-dismiss" => "modal" }= "Cancel"
+      = f.submit "Create", class: 'btn btn-primary'

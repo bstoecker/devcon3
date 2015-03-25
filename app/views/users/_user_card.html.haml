@@ -1,0 +1,5 @@
+= link_to show_user_path(user.id) do
+  .user_card.pull-left
+    %img.placeholder{ src: Gravatar.new(user.email).image_url }
+    .name= user.full_name
+    .role= user.role

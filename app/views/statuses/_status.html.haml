@@ -1,0 +1,11 @@
+%div
+  .timeline-profile-picture
+    = image_tag Gravatar.new(status.user.email).image_url, size: "48"
+  .status-content= status.content
+  .clearfix
+  %aside.timeline-info
+    posted by 
+    = link_to status.user.full_name, user_path(status.user)
+    = time_ago_in_words(status.created_at)
+    ago
+  %hr

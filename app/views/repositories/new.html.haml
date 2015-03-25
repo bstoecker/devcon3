@@ -1,0 +1,7 @@
+%h1= 'Create new repository'
+
+= form_for @repository do |f|
+  %p
+    = f.label :link
+    = f.text_field :link
+  = f.submit

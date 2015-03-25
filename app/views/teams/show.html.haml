@@ -1,0 +1,69 @@
+= link_to "\u2190 " + "Teams Overview", teams_path
+
+%h3= @team.name
+%p{style: "margin-bottom: 40px;"}= @team.description
+
+.row-fluid
+  .span5
+
+    - @team.users.each do |user|
+      = link_to user_path(user.id) do
+        = render partial: '/users/user_card', :locals => { user: user }
+
+    .clearfix
+
+    = form_for @team, url: add_user_team_url(@team), as: :team, html: {class: 'form-horizontal add_user_form'} do |f|
+      .input-append
+        = f.text_field :user_name, class: "span11", placeholder: "Add member...", data: { provide: "typeahead", items: 4, source: users_list(@team.users).to_json }, autocomplete: "off"
+        %button.btn#submit_team{ type: "button" }
+          %i.icon-plus
+    
+  .span7
+    - unless @team.users.empty?
+      .tabbable.tabs-right
+        %ul.nav.nav-tabs#team_tab_options
+          %li.active
+            %a{href: "#topics", "data-toggle" => "tab"}
+              %span= "Recent Topics"
+          %li
+            %a{href: "#statuses", "data-toggle" => "tab"}
+              %span= "Recent Statuses"
+          %li
+            %a{href: "#repositories", "data-toggle" => "tab"}
+              %span= "Repositories"
+          %li
+            %a{href: "#edit_the_team", "data-toggle" => "tab"}
+              %span= "Edit"
+
+        .tab-content
+          .tab-pane.active#topics
+            - unless @topics.empty?
+              = render @topics
+            - else
+              .announcement= "No topics available from team members"
+
+          .tab-pane#statuses
+            = render @statuses
+
+          .tab-pane#repositories
+            - unless @team.repositories.empty?
+              - @team.repositories.each do |repository|
+                %u
+                  %li= repository.link
+            - else
+              .announcement= "Team has no repositories"
+
+          .tab-pane#edit_the_team
+            #edit_team_tab
+              = form_for @team, url: team_url(@team), as: :team, html: {class: 'form-horizontal'} do |f|
+
+                = f.label :name, "Name"
+                = f.text_field :name, class: "span8"
+                = f.label :description, "Description"
+                = f.text_area :description, class: "span8", row: 3
+                .clearfix
+
+                = f.submit "Update Team", class: 'btn pull-left', style: "margin-right: 10px;"
+                = link_to 'Delete team', team_path(@team), class: 'btn btn-danger', method: :delete, confirm: 'Are you sure?'
+
+

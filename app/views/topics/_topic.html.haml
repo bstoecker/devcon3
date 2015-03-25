@@ -1,0 +1,21 @@
+.topic-list-elements.row-fluid
+  .span1.topic-list-cell
+    .topic-left-cell.center-icon
+      - if topic.post_type == "Discussion"
+        %i.icon-comments.icon-2x.center-icon
+      - if topic.post_type == "Question"
+        %i.icon-question.icon-2x.center-icon
+      - if topic.post_type == "Info"
+        %i.icon-info.icon-2x.center-icon
+  .span2.responses
+    .big_num= topic.responses.size 
+    %aside.small_text= "Responses"
+  .span9.topic-list-cell
+    %span.topic-title= link_to topic.title, topic_path(topic)
+    %br
+    %aside.topic-info
+      = 'created by '
+      = link_to topic.user.full_name, user_path(topic.user)
+      = time_ago_in_words(topic.created_at)
+      = 'ago'
+%hr
